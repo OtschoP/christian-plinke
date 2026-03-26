@@ -113,7 +113,9 @@ const applyEmbedConsent = (isEnabled) => {
     });
 };
 
-const applyConsent = (consent) => {
+const applyConsent = (consent, options = {}) => {
+    const hideBannerAfterApply = options.hideBanner !== false;
+    const showPrivacyFabAfterApply = options.showPrivacyFab !== false;
     const normalizedConsent = {
         ...defaultConsent,
         ...consent,
@@ -125,8 +127,17 @@ const applyConsent = (consent) => {
 
     document.documentElement.dataset.externalMediaConsent = normalizedConsent.externalMedia ? "granted" : "denied";
 
-    hideElement(consentBanner);
-    showElement(privacyFab);
+    if (hideBannerAfterApply) {
+        hideElement(consentBanner);
+    } else {
+        showElement(consentBanner);
+    }
+
+    if (showPrivacyFabAfterApply) {
+        showElement(privacyFab);
+    } else {
+        hideElement(privacyFab);
+    }
 };
 
 const setConsent = (consent) => {
@@ -272,7 +283,10 @@ inlineConsentButtons.forEach((button) => {
 const initialConsent = getStoredConsent();
 
 if (initialConsent) {
-    applyConsent(initialConsent);
+    applyConsent(initialConsent, {
+        hideBanner: false,
+        showPrivacyFab: false,
+    });
 } else {
     applyThumbnailConsent(false);
     applyEmbedConsent(false);
