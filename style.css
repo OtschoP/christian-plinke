@@ -202,7 +202,7 @@ h2 {
 
 .video-card {
     display: grid;
-    gap: 14px;
+    gap: 12px;
     padding: 14px;
     border: 1px solid rgba(34, 39, 44, 0.08);
     border-radius: var(--radius-md);
@@ -215,11 +215,24 @@ h2 {
 }
 
 .video-card:hover,
-.video-card:focus-visible {
+.video-card:focus-within {
     transform: translateY(-4px);
     border-color: rgba(67, 171, 57, 0.35);
     background: rgba(67, 171, 57, 0.08);
     box-shadow: 0 14px 28px rgba(91, 97, 103, 0.12);
+}
+
+.video-card-link {
+    display: grid;
+    gap: 14px;
+    color: inherit;
+}
+
+.video-card-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .video-card img {
@@ -245,7 +258,34 @@ h2 {
 
 .media-preview.is-loaded img {
     display: block;
+    width: 100%;
     height: 100%;
+}
+
+.video-preview-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 12px 24px rgba(27, 34, 39, 0.12);
+    backdrop-filter: blur(6px);
+    transform: translate(-50%, -50%);
+}
+
+.video-preview-triangle {
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 18px solid rgba(27, 34, 39, 0.84);
 }
 
 .media-preview-placeholder {
@@ -296,6 +336,47 @@ h2 {
 .video-card h2 {
     font-size: 1.55rem;
     color: var(--text);
+}
+
+.portfolio-audio-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 16px;
+    border: 1px solid rgba(27, 34, 39, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    color: var(--text);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        transform 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+.portfolio-audio-button:hover,
+.portfolio-audio-button:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(33, 169, 225, 0.24);
+    background: rgba(255, 255, 255, 0.96);
+}
+
+.portfolio-audio-button.is-playing {
+    border-color: rgba(33, 169, 225, 0.28);
+    background: rgba(33, 169, 225, 0.14);
+    color: #0f5977;
+}
+
+.portfolio-audio-button:disabled {
+    opacity: 0.56;
+    cursor: default;
 }
 
 .audio-layout,

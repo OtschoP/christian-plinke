@@ -42,6 +42,8 @@ const consentActionButtons = Array.from(document.querySelectorAll("[data-consent
 const inlineConsentButtons = Array.from(document.querySelectorAll("[data-consent-inline-enable]"));
 const consentToggle = document.querySelector("[data-consent-toggle='externalMedia']");
 const privacyFab = document.querySelector(".privacy-settings-fab");
+const portfolioAudioPlayer = document.querySelector("[data-portfolio-audio-player]");
+const portfolioAudioButtons = Array.from(document.querySelectorAll("[data-audio-trigger]"));
 
 const showElement = (element) => {
     if (element) {
@@ -144,6 +146,79 @@ const acceptExternalMedia = () => {
         externalMedia: true,
     });
 };
+
+const resetPortfolioAudioButtons = () => {
+    portfolioAudioButtons.forEach((button) => {
+        button.classList.remove("is-playing");
+        button.setAttribute("aria-pressed", "false");
+
+        const audioTitle = button.dataset.audioTitle || "audio preview";
+        button.setAttribute("aria-label", `Play audio preview for ${audioTitle}`);
+    });
+};
+
+const stopPortfolioAudio = () => {
+    if (!portfolioAudioPlayer) {
+        return;
+    }
+
+    portfolioAudioPlayer.pause();
+    portfolioAudioPlayer.currentTime = 0;
+    resetPortfolioAudioButtons();
+};
+
+portfolioAudioButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!portfolioAudioPlayer) {
+            return;
+        }
+
+        const audioSource = button.dataset.audioSrc;
+        if (!audioSource) {
+            return;
+        }
+
+        const isCurrentlyPlaying =
+            portfolioAudioPlayer.getAttribute("src") === audioSource && !portfolioAudioPlayer.paused;
+
+        if (isCurrentlyPlaying) {
+            stopPortfolioAudio();
+            return;
+        }
+
+        resetPortfolioAudioButtons();
+
+        if (portfolioAudioPlayer.getAttribute("src") !== audioSource) {
+            portfolioAudioPlayer.setAttribute("src", audioSource);
+            portfolioAudioPlayer.load();
+        }
+
+        const playPromise = portfolioAudioPlayer.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {
+                resetPortfolioAudioButtons();
+            });
+        }
+
+        button.classList.add("is-playing");
+        button.setAttribute("aria-pressed", "true");
+        button.setAttribute("aria-label", `Pause audio preview for ${button.dataset.audioTitle || "audio preview"}`);
+    });
+});
+
+if (portfolioAudioPlayer) {
+    portfolioAudioPlayer.addEventListener("ended", resetPortfolioAudioButtons);
+    portfolioAudioPlayer.addEventListener("pause", () => {
+        if (portfolioAudioPlayer.ended) {
+            return;
+        }
+
+        resetPortfolioAudioButtons();
+    });
+}
 
 openConsentButtons.forEach((button) => {
     button.addEventListener("click", () => {
