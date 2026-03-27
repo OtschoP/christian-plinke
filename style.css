@@ -773,15 +773,16 @@ h2 {
 }
 
 .consent-banner {
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
+    top: 50%;
+    left: 50%;
+    width: min(calc(100% - 32px), 760px);
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 20px;
     align-items: end;
     padding: 22px;
     border-radius: 24px;
+    transform: translate(-50%, -50%);
 }
 
 .consent-banner-copy p,
@@ -916,8 +917,8 @@ h2 {
     position: fixed;
     inset: 0;
     z-index: 45;
-    background: rgba(24, 28, 32, 0.18);
-    backdrop-filter: blur(3px);
+    background: rgba(24, 28, 32, 0.32);
+    backdrop-filter: blur(4px);
 }
 
 .is-hidden {
@@ -1020,9 +1021,12 @@ h2 {
     .consent-banner {
         left: 10px;
         right: 10px;
+        top: auto;
         bottom: 10px;
+        width: auto;
         grid-template-columns: 1fr;
         padding: 18px;
+        transform: none;
     }
 
     .consent-option {

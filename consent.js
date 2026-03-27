@@ -57,14 +57,27 @@ const hideElement = (element) => {
     }
 };
 
+const isElementVisible = (element) => {
+    return Boolean(element) && !element.classList.contains("is-hidden");
+};
+
+const syncConsentBackdrop = () => {
+    if (isElementVisible(consentPanel) || isElementVisible(consentBanner)) {
+        showElement(consentBackdrop);
+        return;
+    }
+
+    hideElement(consentBackdrop);
+};
+
 const openConsentPanel = () => {
     showElement(consentPanel);
-    showElement(consentBackdrop);
+    syncConsentBackdrop();
 };
 
 const closeConsentPanel = () => {
     hideElement(consentPanel);
-    hideElement(consentBackdrop);
+    syncConsentBackdrop();
 };
 
 const syncToggle = (consent) => {
@@ -138,6 +151,8 @@ const applyConsent = (consent, options = {}) => {
     } else {
         hideElement(privacyFab);
     }
+
+    syncConsentBackdrop();
 };
 
 const setConsent = (consent) => {
@@ -293,4 +308,5 @@ if (initialConsent) {
     showElement(consentBanner);
     hideElement(privacyFab);
     syncToggle(defaultConsent);
+    syncConsentBackdrop();
 }
