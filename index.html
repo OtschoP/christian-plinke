@@ -14,13 +14,30 @@
 
 <body>
     <div class="page-shell">
+        <nav class="site-nav" aria-label="Main navigation" data-site-nav>
+            <a class="site-nav-brand" href="#top">Christian Plinke</a>
+            <button class="site-nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-links"
+                aria-label="Toggle navigation" data-nav-toggle>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="site-nav-links" id="site-nav-links" data-nav-links>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#audio">Demo Reel</a>
+                <a href="#about">About</a>
+                <a href="#licensing">Licensing</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+
         <header class="site-header">
-            <img class="site-logo" src="img/400PngdpiLogoCropped.png"
+            <img id="top" class="site-logo" src="img/400PngdpiLogoCropped.png"
                 alt="Christian Plinke, Composer and Sound Designer for Games and Media" />
         </header>
 
         <main class="content">
-            <section class="panel panel-portfolio" aria-labelledby="portfolio-title">
+            <section id="portfolio" class="panel panel-portfolio" aria-labelledby="portfolio-title">
                 <div class="section-heading">
                     <p class="eyebrow">Selected Work</p>
                     <h1 id="portfolio-title">Video Game Portfolio</h1>
@@ -187,7 +204,7 @@
                 <audio data-portfolio-audio-player preload="none"></audio>
             </section>
 
-            <section class="panel panel-audio" aria-labelledby="audio-title">
+            <section id="audio" class="panel panel-audio" aria-labelledby="audio-title">
                 <div class="section-heading">
                     <p class="eyebrow">Listen</p>
                     <h2 id="audio-title">Demo Reel &amp; Streaming</h2>
@@ -247,7 +264,7 @@
                 </div>
             </section>
 
-            <section class="panel panel-about" aria-labelledby="about-title">
+            <section id="about" class="panel panel-about" aria-labelledby="about-title">
                 <div class="section-heading">
                     <p class="eyebrow">About</p>
                     <h2 id="about-title">Composer for Games &amp; Interactive Media</h2>
@@ -273,7 +290,7 @@
                 </div>
             </section>
 
-            <section class="panel panel-pack" aria-labelledby="pack-title">
+            <section id="licensing" class="panel panel-pack" aria-labelledby="pack-title">
                 <div class="section-heading">
                     <p class="eyebrow">Licensing</p>
                     <h2 id="pack-title">Horror Music Pack</h2>
@@ -312,7 +329,7 @@
             </section>
         </main>
 
-        <footer class="site-footer">
+        <footer id="contact" class="site-footer">
             <p><a href="mailto:info@christian-plinke.de">contact</a></p>
             <div class="footer-actions">
                 <a href="impressum.html">Imprint</a>
@@ -398,6 +415,44 @@
             </button>
         </div>
     </aside>
+
+    <script>
+        (() => {
+            const nav = document.querySelector("[data-site-nav]");
+            const toggle = document.querySelector("[data-nav-toggle]");
+            const linksWrap = document.querySelector("[data-nav-links]");
+
+            if (!nav || !toggle || !linksWrap) {
+                return;
+            }
+
+            const closeMenu = () => {
+                nav.classList.remove("is-open");
+                toggle.setAttribute("aria-expanded", "false");
+            };
+
+            toggle.addEventListener("click", () => {
+                const isOpen = nav.classList.toggle("is-open");
+                toggle.setAttribute("aria-expanded", String(isOpen));
+            });
+
+            linksWrap.querySelectorAll("a").forEach((link) => {
+                link.addEventListener("click", closeMenu);
+            });
+
+            window.addEventListener("resize", () => {
+                if (window.innerWidth > 820) {
+                    closeMenu();
+                }
+            });
+
+            window.addEventListener("keydown", (event) => {
+                if (event.key === "Escape") {
+                    closeMenu();
+                }
+            });
+        })();
+    </script>
 </body>
 
 </html>
