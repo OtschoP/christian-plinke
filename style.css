@@ -104,7 +104,9 @@ a {
     margin: 0 auto;
     padding: 24px 0 56px;
 }
-
+ #header-logo {
+    width: 120px;
+    height: auto;}
 .site-nav {
     position: sticky;
     top: 10px;
@@ -129,7 +131,6 @@ a {
     min-width: 42px;
     height: 42px;
     border-radius: 999px;
-    background: rgba(67, 171, 57, 0.14);
     color: #2b7823;
     font-family: "Chewy", cursive;
     font-size: 1.32rem;
